@@ -1,0 +1,45 @@
+---
+import type { BlogPostContentModel } from '@api/index';
+import Layout from '@layouts/Layout.astro';
+import client from '@utils/umbraco-client';
+
+export async function getStaticPaths() {
+  // Fetch all content of type "blogPost" from Umbraco.
+  const blogPosts = (await client.getContentByType(
+    'blogPost'
+  )) as BlogPostContentModel[];
+
+  // Create a page for each one using the slug as the route, and pass in the props.
+  return blogPosts.map((page) => ({
+    params: { slug: page.route?.path?.replaceAll('/', '') },
+    props: page.properties
+  }));
+}
+
+const { title, richText } = Astro.props;
+---
+
+<Layout {title}>
+  <main>
+    <h1>{title}</h1>
+    {
+      richText && (
+        <div class="rte">
+          <Fragment set:html={richText.markup} />
+        </div>
+      )
+    }
+  </main>
+</Layout>
+
+<style>
+  img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .rte {
+    margin: 3rem 0;
+  }
+</style>

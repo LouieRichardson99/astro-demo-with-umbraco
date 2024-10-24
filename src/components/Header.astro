@@ -1,0 +1,66 @@
+---
+import client from '@utils/umbraco-client';
+import type { WebsiteSettingsPropertiesModel } from '@api/index';
+
+const siteSettings = await client.getContentByType('websiteSettings');
+const { siteName, navigation } = siteSettings[0]
+  .properties as WebsiteSettingsPropertiesModel;
+---
+
+<header>
+  <a href="/"><h4 class="site-name">{siteName}</h4></a>
+  <nav>
+    <ul>
+      {
+        navigation?.map(({ title, route, url }) => {
+          return (
+            <li>
+              <a href={url || route?.path}>{title}</a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
+</header>
+
+<style lang="scss">
+  header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: 200ms color ease-in-out;
+
+    &:hover {
+      color: #e62a63;
+    }
+  }
+
+  .site-name {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    margin: 0;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      transition: 150ms color ease-in-out;
+
+      &:hover {
+        color: #e62a63;
+      }
+    }
+  }
+</style>

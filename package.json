@@ -1,0 +1,25 @@
+{
+  "name": "headless-umbraco-with-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate": "openapi --input http://localhost:58587/umbraco/swagger/delivery/swagger.json --output src/api --postfixServices Resource --useOptions"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/lit": "^4.3.0",
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "astro": "^4.16.7",
+    "lit": "^3.2.1",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "openapi-typescript-codegen": "^0.29.0",
+    "sass": "^1.80.4"
+  }
+}
